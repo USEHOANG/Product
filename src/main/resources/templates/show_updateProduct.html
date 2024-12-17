@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Product</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-4">
+    <h1 class="mb-4">Update Product</h1>
+    <form th:action="@{/products/edit/{id}(id=${product.id})}" th:object="${product}" method="POST">
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" th:field="*{productName}" placeholder="Product Name" required>
+        </div>
+
+<!--        <div class="mb-3">-->
+<!--            <label for="color" class="form-label">Color</label>-->
+<!--            <input type="text" class="form-control" id="color" th:field="*{Color}" placeholder="Color" required>-->
+<!--        </div>-->
+
+<!--        <div class="mb-3">-->
+<!--            <label for="quantity" class="form-label">Quantity</label>-->
+<!--            <input type="number" class="form-control" id="quantity" th:field="*{quantity}" placeholder="Quantity" required>-->
+<!--        </div>-->
+
+<!--        <div class="mb-3">-->
+<!--            <label for="sellPrice" class="form-label">Sell Price</label>-->
+<!--            <input type="number" class="form-control" id="sellPrice" th:field="*{}" placeholder="Sell Price" required>-->
+<!--        </div>-->
+
+        <div class="mb-3">
+            <label for="originalPrice" class="form-label">Original Price</label>
+            <input type="number" class="form-control" id="originalPrice" th:field="*{price}" placeholder="Original Price" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="subcategoryId" class="form-label">Subcategory</label>
+            <select class="form-select" id="subcategoryId" th:field="*{subcategory}" required>
+                <option value="" disabled selected>Select a Subcategory</option>
+                <option th:each="subcategory : ${subcategories}" th:value="${subcategory.id}" th:text="${subcategory.subCateName}"></option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="brandId" class="form-label">Brand</label>
+            <select class="form-select" id="brandId" th:field="*{brandName}" required>
+                <option value="" disabled selected>Select a Brand</option>
+                <option th:each="brand : ${brands}" th:value="${brand.id}" th:text="${brand.brandName}"></option>
+            </select>
+        </div>
+
+
+        <button type="submit" class="btn btn-success">Save</button>
+        <a href="/products" class="btn btn-secondary">Cancel</a>
+    </form>
+
+
+</div>
+</body>
+</html>
