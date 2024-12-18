@@ -13,6 +13,8 @@ import sping.api.spingboot.helper.base.entity.BaseEntity;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Data
+@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "Users")
 public class User extends BaseEntity {
@@ -28,5 +30,7 @@ public class User extends BaseEntity {
 
     @Column(name = "lastName")
     String lastName;
+
+    //hoang
 
 }

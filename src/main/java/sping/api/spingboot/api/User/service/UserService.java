@@ -1,6 +1,8 @@
 package sping.api.spingboot.api.User.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import sping.api.spingboot.api.User.entity.User;
 import sping.api.spingboot.api.User.repository.UserRepository;
@@ -26,6 +28,12 @@ public class UserService {
         if (userRepository.existsByUsername(user.getUsername())){
             throw new RuntimeException("Username đã tồn tại ");
         }
+
+        //mã hóa mật khẩu
+        // tạo BCryptPasswordEncoder chuyền độ mạnh củ password ( thông số cang lớn thì độ giải càng khó )
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
         return userRepository.save(user).getId();
     }
 
