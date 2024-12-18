@@ -14,7 +14,6 @@ import sping.api.spingboot.helper.base.entity.BaseEntity;
 public class Category  extends BaseEntity{
 
 
-
     @Column(name = "cate_code", length = 20)
     private String cateCode;
 
