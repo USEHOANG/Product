@@ -22,11 +22,15 @@ public class CategoryServiceImple implements CategoryService {
 
     @Override
     public  Category Edit(Long id){
-        return categoryRepository.findById(id).get();
+        return categoryRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Category not found"));
     }
 
     @Override
     public int addCategory(Category category){
+        if (categoryRepository.existsByCateName(category.getCateName())){
+            throw new RuntimeException("Category name Da ton tai");
+        }
         return categoryRepository.save(category).getId();
     }
     @Override

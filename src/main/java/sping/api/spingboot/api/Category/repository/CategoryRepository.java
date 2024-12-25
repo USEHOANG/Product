@@ -16,4 +16,5 @@ SELECT * FROM category WHERE LOWER(cate_name) LIKE LOWER(CONCAT('%', :keyword, '
 """, nativeQuery = true)
     List<Category> Search(@Param("keyword") String keyword);
 
+    boolean existsByCateName(String cateName);
 }

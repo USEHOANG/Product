@@ -20,21 +20,21 @@ public class SecurityConfig {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Bean
-    ApplicationRunner applicationRunner(UserRepository userRepository){
-        return args -> {
-            if (userRepository.findByUsername("Hoang").isEmpty()){
-                var roles = new HashSet<String>();
-                roles.add(Role.ROLE_MANAGER.name());
-                User user = User.builder()
-                        .username("admin123")
-                        .password(passwordEncoder.encode("123"))
-                        .roles(roles)
-                        .build();
-
-                userRepository.save(user);
-                log.warn("admin user created, please change password");
-            }
-        };
-    }
+//    @Bean
+//    ApplicationRunner applicationRunner(UserRepository userRepository){
+//        return args -> {
+//            if (userRepository.findByUsername("Hoang").isEmpty()){
+//                var roles = new HashSet<String>();
+//                roles.add(Role.ROLE_MANAGER.name());
+//                User user = User.builder()
+//                        .username("admin123")
+//                        .password(passwordEncoder.encode("123"))
+//                        .roles(roles)
+//                        .build();
+//
+//                userRepository.save(user);
+//                log.warn("admin user created, please change password");
+//            }
+//        };
+//    }
 }

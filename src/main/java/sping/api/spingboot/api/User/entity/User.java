@@ -1,21 +1,18 @@
 package sping.api.spingboot.api.User.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import sping.api.spingboot.helper.base.entity.BaseEntity;
-
-import javax.management.relation.Role;
-import java.util.Set;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Data
-@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "Users")
 public class User extends BaseEntity {
@@ -31,11 +28,5 @@ public class User extends BaseEntity {
 
     @Column(name = "lastName")
     String lastName;
-
-    @ElementCollection(fetch = FetchType.EAGER)
-    @Enumerated(EnumType.STRING)
-    Set<String> roles; // Một user có thể có nhiều vai trò
-
-    //hoang
 
 }
