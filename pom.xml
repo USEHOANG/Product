@@ -78,32 +78,17 @@
 			<version>2.1.0</version> <!-- Thay bằng phiên bản mới nhất -->
 		</dependency>
 
-<!--		tocken-->
-		<!-- https://mvnrepository.com/artifact/com.nimbusds/nimbus-jose-jwt -->
-		<dependency>
-			<groupId>com.nimbusds</groupId>
-			<artifactId>nimbus-jose-jwt</artifactId>
-			<version>9.48</version>
-		</dependency>
-
-
-
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-crypto</artifactId>
-		</dependency>
+		<!-- Spring Boot Starter Security -->
 <!--		<dependency>-->
 <!--			<groupId>org.springframework.boot</groupId>-->
 <!--			<artifactId>spring-boot-starter-security</artifactId>-->
 <!--		</dependency>-->
-		<!-- https://mvnrepository.com/artifact/org.webjars.npm/axios -->
+		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
+<!--		 https://mvnrepository.com/artifact/org.springframework.security/spring-security-crypto -->
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-security</artifactId>
-			<version>3.1.4</version> <!-- Hoặc phiên bản phù hợp -->
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-crypto</artifactId>
 		</dependency>
-
-
 
 
 
