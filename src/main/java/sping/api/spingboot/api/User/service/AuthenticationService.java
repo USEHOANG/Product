@@ -7,25 +7,30 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import sping.api.spingboot.api.User.model.request.AuthenticationRequest;
+import sping.api.spingboot.api.User.model.respones.AuthenticationResponse;
 import sping.api.spingboot.api.User.repository.UserRepository;
 
 @Service
-//auto các biến
 @RequiredArgsConstructor
-
-// chúng ta mà không khai báo thì lombox sẽ tự động thành private
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AuthenticationService {
 
-    // lấy thông tin của User
-    UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public boolean authenticate(AuthenticationRequest request){
+    public AuthenticationResponse authenticate(AuthenticationRequest request) {
         var user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        return  passwordEncoder.matches(request.getPassword(), user.getPassword());
-    }
+        boolean isAuthenticated = passwordEncoder.matches(request.getPassword(), user.getPassword());
 
+        String role = user.getRoles().stream()
+                .map(Enum::name)  // Đảm bảo tên vai trò có tiền tố "ROLE_"
+                .findFirst()
+                .orElse(null);
+
+        return AuthenticationResponse.builder()
+                .authenticated(isAuthenticated)
+                .role(role)
+                .build();
+    }
 }

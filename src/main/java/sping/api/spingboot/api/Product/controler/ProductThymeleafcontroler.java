@@ -7,7 +7,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import sping.api.spingboot.api.Brand.entity.Brand;
 import sping.api.spingboot.api.Brand.service.BrandService;
-import sping.api.spingboot.api.Product.entity.Product;
 import sping.api.spingboot.api.Product.model.request.ProductsRequest;
 import sping.api.spingboot.api.Product.model.response.ProductResponse;
 import sping.api.spingboot.api.Product.service.ProductService;

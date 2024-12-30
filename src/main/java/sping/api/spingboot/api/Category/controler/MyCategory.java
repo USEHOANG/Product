@@ -1,6 +1,7 @@
 package sping.api.spingboot.api.Category.controler;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import sping.api.spingboot.api.Category.entity.Category;
 import sping.api.spingboot.api.Category.service.CategoryService;
@@ -14,6 +15,7 @@ public class MyCategory {
     @Autowired
     private CategoryService categoryService;
 
+//    @PreAuthorize("hasRole('ROLE_MANAGER')")
     @GetMapping
     public List<Category> getCategories() {
         return categoryService.getAll();

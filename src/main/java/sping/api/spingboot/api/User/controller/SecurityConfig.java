@@ -1,40 +1,51 @@
 package sping.api.spingboot.api.User.controller;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.ApplicationRunner;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import sping.api.spingboot.api.User.entity.User;
-import sping.api.spingboot.api.User.enums.Role;
-import sping.api.spingboot.api.User.repository.UserRepository;
-
-import java.util.HashSet;
+import org.springframework.security.web.SecurityFilterChain;
+import sping.api.spingboot.api.User.service.CustomUserDetailsService;
 
 @Configuration
-@Slf4j
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+@RequiredArgsConstructor
 public class SecurityConfig {
 
+    private final CustomUserDetailsService userDetailsService;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .csrf().disable()
+                .authorizeRequests(auth -> auth
+                        .requestMatchers("/auth/**").permitAll()  // Cho phép truy cập vào /auth mà không cần xác thực
+                        .requestMatchers("/api/manager/**").hasRole("MANAGER")  // Kiểm tra ROLE_MANAGER
+                        .requestMatchers("/api/employee/**").hasRole("EMPLOYEE")  // Kiểm tra ROLE_EMPLOYEE
+//                        .requestMatchers("/api/category/**").hasRole("MANAGER")  // Kiểm tra ROLE_MANAGER cho category
+                        .anyRequest().authenticated()  // Các request khác yêu cầu xác thực
+                )
+                .httpBasic();  // Sử dụng HTTP basic authentication
+        return http.build();
+    }
 
-//    @Bean
-//    ApplicationRunner applicationRunner(UserRepository userRepository){
-//        return args -> {
-//            if (userRepository.findByUsername("Hoang").isEmpty()){
-//                var roles = new HashSet<String>();
-//                roles.add(Role.ROLE_MANAGER.name());
-//                User user = User.builder()
-//                        .username("admin123")
-//                        .password(passwordEncoder.encode("123"))
-//                        .roles(roles)
-//                        .build();
-//
-//                userRepository.save(user);
-//                log.warn("admin user created, please change password");
-//            }
-//        };
-//    }
+    @Bean
+    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
+        return http.getSharedObject(AuthenticationManagerBuilder.class)
+                .userDetailsService(userDetailsService)  // Cung cấp userDetailsService để xác thực người dùng
+                .passwordEncoder(passwordEncoder())  // Sử dụng BCryptPasswordEncoder để giải mã mật khẩu
+                .and()
+                .build();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(10);  // Dùng bcrypt với độ khó 10
+    }
 }
